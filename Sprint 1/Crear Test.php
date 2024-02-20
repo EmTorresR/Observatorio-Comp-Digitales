@@ -1,4 +1,133 @@
-// Función para agregar el formulario de creación de test en el panel de administración
+<?php
+    header('Content-Type: text/html; charset=utf-8');
+
+    /*
+Plugin Name: Skill-Kiri
+Description: Un plugin creado por estudiantes de la Universidad Distrital de Colombia con el objetivo de evaluar habilidades digitales mediante cuestionarios con puntajes y pesos específicos.
+Version: 1.1
+Author: Emmanuel Torres Rodríguez
+*/
+
+// Agregar enlaces adicionales junto al nombre y la versión del plugin
+function mostrar_nombre_y_enlaces($plugin_data, $plugin_file) {
+    // Verificar si el plugin actual es el que queremos modificar
+    if (plugin_basename(__FILE__) === $plugin_file) {
+        $additional_links = array(
+            '<a href="https://drive.google.com/file/d/1GVhZP05kaelFSu11ZQYa2Q0IERV-g4yW/view?usp=drive_link" target="_blank">Manual De Usuario</a>',
+        );
+        
+        $plugin_data['Name'] .= ' ' . implode(' | ', $additional_links);
+    }
+    return $plugin_data;
+}
+add_filter('plugin_row_meta', 'mostrar_nombre_y_enlaces', 10, 2);
+
+    global $mi_plugin_test_db_version;
+    $mi_plugin_test_db_version = '1.0';
+
+    // Función para crear la tabla de la base de datos cuando se activa el plugin
+    function mi_plugin_test_install() {
+    global $wpdb;
+    $mi_plugin_test_db_version = '1.0';
+
+    $table_name = $wpdb->prefix . 'tests';
+    $table_name_categories = $wpdb->prefix . 'test_categories';
+    $table_name_dimensions = $wpdb->prefix . 'test_dimensions';
+    $table_name_results = $wpdb->prefix . 'test_results'; 
+    $tabla_mensajes_condicionales = $wpdb->prefix . 'test_mensajes_condicionales';
+
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        titulo text NOT NULL,
+        descripcion text NOT NULL,
+        fecha_creacion datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+
+    $sql_categories = "CREATE TABLE $table_name_categories (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        test_id mediumint(9) NOT NULL,
+        dimension_id mediumint(9) NOT NULL,
+        nombre_categoria text NOT NULL,
+        puntaje_categoria mediumint(9) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (test_id) REFERENCES $table_name(id) ON DELETE CASCADE 
+    ) $charset_collate;";
+
+    $sql_dimensions = "CREATE TABLE $table_name_dimensions (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        test_id mediumint(9) NOT NULL,
+        nombre_dimension text NOT NULL,
+        puntaje_dimension mediumint(9) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (test_id) REFERENCES $table_name(id) ON DELETE CASCADE
+    ) $charset_collate;";
+
+    $sql_results = "CREATE TABLE $table_name_results (  
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        test_id mediumint(9) NOT NULL,
+        nombre VARCHAR(255) NOT NULL,
+        correo VARCHAR(255) NOT NULL,
+        puntaje_total mediumint(9) NOT NULL,
+        fecha_realizacion DATETIME NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (test_id) REFERENCES $table_name(id) ON DELETE CASCADE
+    ) $charset_collate;";
+
+    $sql_puntajes_categoria = "CREATE TABLE " . $wpdb->prefix . 'test_puntajes_categoria' . " (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        resultado_id mediumint(9) NOT NULL,
+        categoria_id mediumint(9) NOT NULL,
+        puntaje_categoria mediumint(9) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (resultado_id) REFERENCES $table_name_results(id) ON DELETE CASCADE,
+        FOREIGN KEY (categoria_id) REFERENCES $table_name_categories(id) ON DELETE CASCADE
+    ) $charset_collate;";
+
+    $sql_puntajes_dimension = "CREATE TABLE " . $wpdb->prefix . 'test_puntajes_dimension' . " (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        resultado_id mediumint(9) NOT NULL,
+        dimension_id mediumint(9) NOT NULL,
+        puntaje_dimension mediumint(9) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (resultado_id) REFERENCES $table_name_results(id) ON DELETE CASCADE,
+        FOREIGN KEY (dimension_id) REFERENCES $table_name_dimensions(id) ON DELETE CASCADE
+    ) $charset_collate;";
+
+    $sql_mensajes_condicionales = "CREATE TABLE " . $wpdb->prefix . 'test_mensajes_condicionales' . " (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        test_id mediumint(9) NOT NULL,
+        tipo_elemento varchar(50) NOT NULL,
+        id_elemento varchar(100) NOT NULL,
+        rango_inicial int(11) NOT NULL,
+        rango_final int(11) NOT NULL,
+        mensaje text NOT NULL,
+        nombre_link varchar(100), /* Nuevo campo: nombre del link */
+        link varchar(255), /* Nuevo campo: link */
+        imagen varchar(255), /* Nombre o ruta de la imagen */
+        fecha_realizacion DATETIME NOT NULL, /* Nueva columna: fecha de creación */
+        PRIMARY KEY (id),
+        FOREIGN KEY (test_id) REFERENCES $table_name(id) ON DELETE CASCADE
+    ) $charset_collate;";
+
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+    dbDelta($sql_categories);
+    dbDelta($sql_dimensions);
+    dbDelta($sql_results);
+    dbDelta($sql_puntajes_categoria); 
+    dbDelta($sql_puntajes_dimension); 
+    dbDelta($sql_mensajes_condicionales);
+
+    add_option('mi_plugin_test_db_version', $mi_plugin_test_db_version);
+    }
+
+    register_activation_hook(__FILE__, 'mi_plugin_test_install');
+
+    // Función para agregar el formulario de creación de test en el panel de administración
     function mi_plugin_test_admin_menu() {
     add_menu_page(
         'Crear Test',

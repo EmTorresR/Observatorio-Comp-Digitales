@@ -1,0 +1,139 @@
+/* styles.css */
+
+/* Estilo para el botón "Eliminar" */
+.delete-test {
+    color: #f44336;
+    border: 1px solid #f44336;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Estilo para el botón "Eliminar" al pasar el mouse por encima */
+.delete-test:hover {
+    color: #fff;
+    background-color: #f44336;
+}
+
+/* Estilo para el botón "Ver Categorías" */
+.ver-categorias-button {
+    color: #0073e6; /* Color del borde y texto azul */
+    border: 1px solid #0073e6; /* Borde azul */
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Estilo para el botón "Ver Categorías" al pasar el mouse por encima */
+.ver-categorias-button:hover {
+    color: #fff; /* Color de texto blanco */
+    background-color: #0073e6; /* Color de fondo azul */
+}
+
+/* Estilo para el botón "Estadísticas" */
+.ver-estadísticas-button {
+    color: #343a40; /* Color del borde y texto oscuro */
+    border: 1px solid #343a40; /* Borde oscuro */
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Estilo para el botón "Estadísticas" al pasar el mouse por encima */
+.ver-estadísticas-button:hover {
+    color: #fff; /* Color de texto blanco */
+    background-color: #343a40; /* Color de fondo oscuro */
+}
+
+/* Estilo para el botón "Condicionales" similar a btn-outline-info */
+.ver-condicionales-button {
+    color: #17a2b8; /* Color del borde y texto del botón */
+    border: 1px solid #17a2b8; /* Borde del botón */
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Estilo para el botón "Condicionales" al pasar el mouse por encima */
+.ver-condicionales-button:hover {
+    color: #fff; /* Color de texto blanco */
+    background-color: #17a2b8; /* Color de fondo del botón */
+}
+
+/* Estilo para el botón de carga de imagen */
+.upload-image-button {
+    display: inline-block;
+    background-image: linear-gradient(to right, #4CAF50, #2196F3); /* Degradado de color de verde a azul */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    border: none;
+    border-radius: 30px; /* Ajuste el valor de border-radius para redondear más los bordes */
+    cursor: pointer;
+    transition-duration: 0.4s;
+    outline: none; /* Elimina el contorno */
+}
+
+/* Efecto hover para el botón de carga de imagen */
+.upload-image-button:hover {
+    background-image: linear-gradient(to right, #45a049, #0d47a1); /* Cambio de color de fondo al pasar el mouse */
+}
+
+/* Estilo para el icono dentro del botón */
+.upload-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+/* Estilo para el botón "Crear Condicional" */
+.create-conditional-button {
+    display: inline-block;
+    background-image: linear-gradient(to right, #2196F3, #9C27B0); /* Degradado de color de azul a morado */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    border: none;
+    border-radius: 30px; /* Ajuste el valor de border-radius para redondear más los bordes */
+    cursor: pointer;
+    transition-duration: 0.4s;
+    outline: none; /* Elimina el contorno */
+}
+
+/* Efecto hover para el botón "Crear Condicional" */
+.create-conditional-button:hover {
+    background-image: linear-gradient(to right, #0d47a1, #6a1b9a); /* Cambio de color de fondo al pasar el mouse */
+}
+
+
+
+
+
+
